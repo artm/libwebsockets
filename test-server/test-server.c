@@ -34,9 +34,13 @@
 #include "gettimeofday.h"
 #endif
 
+#undef DATADIR
 #ifndef DATADIR
-#define DATADIR "."
+#define LOCAL_RESOURCE_PATH "."
+#else
+#define LOCAL_RESOURCE_PATH DATADIR"/libwebsockets-test-server"
 #endif
+
 
 static int close_testing;
 
@@ -79,8 +83,6 @@ enum demo_protocols {
 	DEMO_PROTOCOL_COUNT
 };
 
-
-#define LOCAL_RESOURCE_PATH DATADIR"/libwebsockets-test-server"
 
 /* this protocol server (always the first one) just knows how to do HTTP */
 
@@ -173,7 +175,7 @@ dump_handshake_info(struct lws_tokens *lwst)
 		/*[WSI_TOKEN_HTTP]		=*/ "Http",
 		/*[WSI_TOKEN_MUXURL]	=*/ "MuxURL",
 	};
-	
+
 	for (n = 0; n < WSI_TOKEN_COUNT; n++) {
 		if (lwst[n].token == NULL)
 			continue;
